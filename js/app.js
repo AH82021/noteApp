@@ -1,8 +1,37 @@
 
+// const studentObj = {
+//  name : "Jack",
+//  lastName : "Khan",
+//  email : "jackKhan@example.com",
+//  cell: "703-123-2398"
+// }
+
+// localStorage.setItem("student",JSON.stringify(studentObj))
+
+// let val = localStorage.getItem("student")
+
+// localStorage.removeItem("student")
+// localStorage.clear();
+
+
+
+
+
+
+
 const addBtn = document.getElementById('add')
 
-let name = 'Kahalida'
+const notes = JSON.parse(localStorage.getItem('notes'))
 
+
+if(notes){
+  notes.forEach(note =>addNewNote(note) );
+}
+
+
+addBtn.addEventListener('click',()=> addNewNote())
+
+// localStorage in broswer
 
 
 function addNewNote(text =''){
@@ -25,11 +54,12 @@ const main = note.querySelector('.main')
 const textArea = note.querySelector('textarea')
 
 textArea.value = text;
-main.innerHTML = marked(text)
+main.innerHTML = text
 
 deleteBtn.addEventListener('click',()=>{
   note.remove();
   // Todo update the locaalStoreage 
+  updateLocalStorage();
 })
 
 editBtn.addEventListener('click',()=>{
@@ -39,13 +69,26 @@ editBtn.addEventListener('click',()=>{
 
 textArea.addEventListener('input',(e)=>{
   const value = e.target.value;
-  main.innerHTML = marked(value)
+  main.innerHTML = value
     // Todo update the locaalStoreage 
+    updateLocalStorage();
 })
 
 
 document.body.appendChild(note)
 
 
+}
+
+
+function updateLocalStorage(){
+
+  const noteText = document.querySelectorAll("textarea")
+
+  const notes = [];
+
+  noteText.forEach( note =>notes.push(note.value) )
+
+  localStorage.setItem('notes',JSON.stringify(notes))
 }
 
